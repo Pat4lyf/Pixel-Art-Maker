@@ -1,61 +1,65 @@
 // Select color input
-var color = "white";
+var color = document.querySelector("#colorPicker");
+color.addEventListener("click", getColor);
+
+
+function getColor() {
+    return color.value;
+}
+
+
 // Select size input
 var inputHeight = document.getElementById("inputHeight");
-
 var inputWidth = document.getElementById("inputWidth");
+
+
 // When size is submitted by the user, call makeGrid()
 var form = document.getElementById("sizePicker");
 form.addEventListener('submit', makeGrid);
 
 
 function getGridHeight() {
-    var gridHeight = inputHeight.value;
-    console.log("height " + gridHeight);
-    return gridHeight;
+    return inputHeight.value;
 }
+
 
 inputHeight.addEventListener("change", getGridHeight);
 inputHeight.addEventListener("keyup", getGridHeight);
 
+
 function getGridWidth() {
-    var gridWidth = inputWidth.value;
-    console.log("Width " + gridWidth);
-    return gridWidth;
+    return inputWidth.value;
 }
+
 
 inputWidth.addEventListener("change", getGridWidth);
 inputWidth.addEventListener("keyup", getGridWidth);
 
-var tBody = document.createElement("tbody");
-tBody.setAttribute("id", "myTableBody");
-document.getElementById("pixelCanvas").appendChild(tBody);
 
-function createTableRow() {
-    var tableRow = document.createElement("TR");
-    tableRow.setAttribute("id", "myTableRow");
-    return tBody.appendChild(tableRow);
-}
-
-function createCell() {
-    var cellElement = document.createElement("td");
-    var row = document.getElementById("myTableRow");
-    row.appendChild(cellElement);
-}
-
-
+/**
+* @description A function that creates a grid
+* @param {string} event - The type of event
+*/
 function makeGrid(event) {
   // Your code goes here!
     event.preventDefault();
+    var tableElement = document.getElementById("pixelCanvas");
+    tableElement.innerHTML = '';
 
     var height = getGridHeight();
     var width = getGridWidth();
     for (let i = 1; i <= height; i++) {
-        var row = createTableRow();
-        // var row = document.getElementById("pixelCanvas").insertRow();
+        var row = tableElement.insertRow();
         for (let j = 1; j <= width; j++) {
-            // row.insertCell();
-            row.innerHTML = createCell();
+            row.insertCell();
         }
-  }
+    }
+
+
+function colorCell(event) {
+    event.target.style.backgroundColor = getColor();
+}
+   
+    
+document.querySelectorAll('td').forEach(cell => cell.addEventListener('click', colorCell));   
 }
